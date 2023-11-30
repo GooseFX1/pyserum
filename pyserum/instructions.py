@@ -692,7 +692,7 @@ def new_order_v3(params: NewOrderV3Params) -> Instruction:
             AccountMeta(pubkey=params.fee_discount_pubkey, is_signer=False, is_writable=False),
         )
     return Instruction(
-        keys=touched_keys,
+        accounts=touched_keys,
         program_id=params.program_id,
         data=INSTRUCTIONS_LAYOUT.build(
             dict(
