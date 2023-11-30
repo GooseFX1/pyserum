@@ -78,18 +78,22 @@ class _OpenOrdersAccountCore:  # pylint: disable=too-many-instance-attributes,to
     @classmethod
     def _process_get_program_accounts_resp(cls: Type[_T], resp: RPCResult) -> List[_T]:
         accounts = []
-        for account in resp["result"]:
-            account_details = account["account"]
+        for details in resp:
+            account_details = details.account
+            data=base64.decodebytes(base64.encodebytes(account_details.data))
+            is_executablable=bool(account_details.executable)
+            owner=account_details.owner
+            lamports=int(account_details.lamports)
+            
             accounts.append(
                 ProgramAccount(
-                    public_key=Pubkey(account["pubkey"]),
-                    data=base64.decodebytes(account_details["data"][0].encode("ascii")),
-                    is_executablable=bool(account_details["executable"]),
-                    owner=Pubkey(account_details["owner"]),
-                    lamports=int(account_details["lamports"]),
+                    public_key=details.pubkey,
+                    data=data,
+                    is_executablable=is_executablable,
+                    owner=owner,
+                    lamports=lamports,
                 )
             )
-
         return [cls.from_bytes(account.public_key, account.data) for account in accounts]
 
     @staticmethod
@@ -125,8 +129,8 @@ class OpenOrdersAccount(_OpenOrdersAccountCore):
         args = cls._build_get_program_accounts_args(
             market=market, program_id=program_id, owner=owner, commitment=commitment
         )
-        resp = conn.get_program_accounts(*args)
-        return cls._process_get_program_accounts_resp(resp)
+        resp = conn.get_program_accounts(args[0], args[1], args[2], args[3], args[5])
+        return cls._process_get_program_accounts_resp(resp.value)
 
     @classmethod
     def load(cls, conn: Client, address: str) -> OpenOrdersAccount:
