@@ -124,7 +124,7 @@ class _OpenOrdersAccountCore:  # pylint: disable=too-many-instance-attributes,to
 class OpenOrdersAccount(_OpenOrdersAccountCore):
     @classmethod
     def find_for_market_and_owner(  # pylint: disable=too-many-arguments
-        cls, conn: Client, market: Pubkey, owner: Pubkey, program_id: Pubkey, commitment: Commitment = Recent
+        cls, conn: Client, market: Pubkey, owner: Pubkey, program_id: Pubkey, commitment = 'finalized'
     ) -> List[OpenOrdersAccount]:
         args = cls._build_get_program_accounts_args(
             market=market, program_id=program_id, owner=owner, commitment=commitment
