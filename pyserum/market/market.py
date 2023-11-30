@@ -102,7 +102,7 @@ class Market(MarketCore):
     ) -> RPCResult:  # TODO: Add open_orders_address_key param and fee_discount_pubkey
         transaction = Transaction()
         signers: List[Keypair] = [owner]
-        open_order_accounts = self.find_open_orders_accounts_for_owner(owner.public_key)
+        open_order_accounts = self.find_open_orders_accounts_for_owner(owner.pubkey)
         if open_order_accounts:
             place_order_open_order_account = open_order_accounts[0].address
         else:

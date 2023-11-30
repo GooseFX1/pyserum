@@ -6,7 +6,7 @@ from solana.rpc.api import Client as conn  # pylint: disable=unused-import # noq
 
 from .market.types import MarketInfo, TokenInfo
 
-LIVE_MARKETS_URL = "https://raw.githubusercontent.com/project-serum/serum-ts/master/packages/serum/src/markets.json"
+LIVE_MARKETS_URL = "https://raw.githubusercontent.com/openbook-dex/openbook-ts/master/packages/openbook/src/markets.json"
 TOKEN_MINTS_URL = "https://raw.githubusercontent.com/project-serum/serum-ts/master/packages/serum/src/token-mints.json"
 
 
