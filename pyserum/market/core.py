@@ -268,6 +268,7 @@ class MarketCore:
                     program_id=self.state.program_id(),
                 )
             )
+        max_quote = self.state.base_size_number_to_lots(max_quantity)* self.state.quote_lot_size() * self.state.price_number_to_lots(limit_price)
         return instructions.new_order_v3(
             instructions.NewOrderV3Params(
                 market=self.state.public_key(),
@@ -283,9 +284,7 @@ class MarketCore:
                 side=side,
                 limit_price=self.state.price_number_to_lots(limit_price),
                 max_base_quantity=self.state.base_size_number_to_lots(max_quantity),
-                max_quote_quantity=self.state.base_size_number_to_lots(max_quantity)
-                * self.state.quote_lot_size()
-                * self.state.price_number_to_lots(limit_price),
+                max_quote_quantity=max_quote,
                 order_type=order_type,
                 client_id=client_id,
                 program_id=self.state.program_id(),
