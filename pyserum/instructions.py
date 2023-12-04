@@ -715,7 +715,7 @@ def new_order_v3(params: NewOrderV3Params) -> Instruction:
 def cancel_order_v2(params: CancelOrderV2Params) -> Instruction:
     """Generate a transaction instruction to cancel order."""
     return Instruction(
-        keys=[
+        accounts=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
             AccountMeta(pubkey=params.bids, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.asks, is_signer=False, is_writable=True),

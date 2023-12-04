@@ -327,7 +327,7 @@ class MarketCore:
         )
 
     def _build_cancel_order_tx(self, owner: Keypair, order: t.Order) -> Transaction:
-        return Transaction().add(self.make_cancel_order_instruction(owner.pubkey, order))
+        return Transaction().add(self.make_cancel_order_instruction(owner.pubkey(), order))
 
     def make_cancel_order_instruction(self, owner: Pubkey, order: t.Order) -> Instruction:
         if self._use_request_queue():
