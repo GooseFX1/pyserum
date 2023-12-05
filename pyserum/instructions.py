@@ -632,7 +632,7 @@ def cancel_order(params: CancelOrderParams) -> Instruction:
 def settle_funds(params: SettleFundsParams) -> Instruction:
     """Generate a transaction instruction to settle fund."""
     return Instruction(
-        keys=[
+        accounts=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.owner, is_signer=True, is_writable=False),

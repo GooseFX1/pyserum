@@ -386,7 +386,7 @@ class MarketCore:
         should_wrap_sol: bool,
     ) -> Transaction:
         # TODO: Handle wrapped sol accounts
-        if open_orders.owner != owner.pubkey:
+        if open_orders.owner != owner.pubkey():
             raise Exception("Invalid open orders account")
         vault_signer = Pubkey.create_program_address(
             [bytes(self.state.public_key()), self.state.vault_signer_nonce().to_bytes(8, byteorder="little")],
