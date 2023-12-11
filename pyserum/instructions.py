@@ -13,7 +13,8 @@ from ._layouts.instructions import INSTRUCTIONS_LAYOUT, InstructionType
 from .enums import OrderType, SelfTradeBehavior, Side
 
 # V3
-DEFAULT_DEX_PROGRAM_ID = Pubkey.from_string("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
+DEFAULT_DEX_PROGRAM_ID = Pubkey.from_string("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
+
 
 class InitializeMarketParams(NamedTuple):
     """Initalize market params."""
@@ -113,8 +114,6 @@ class ConsumeEventsParams(NamedTuple):
     open_orders_accounts: List[Pubkey]
     """"""
     limit: int
-    """"""
-    payer: Pubkey
     """"""
     program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
@@ -592,12 +591,10 @@ def consume_events(params: ConsumeEventsParams) -> Instruction:
     keys = [
         AccountMeta(pubkey=pubkey, is_signer=False, is_writable=True)
         # NOTE - last two accounts are required for backwards compatibility but are ignored
-        for pubkey in params.open_orders_accounts
+        for pubkey in params.open_orders_accounts + (2 * [params.market, params.event_queue])
     ]
-    keys.append(AccountMeta(pubkey=params.payer, is_signer=True, is_writable=True)) # NOTE - payer is required to sign tx
-       
     return Instruction(
-        accounts=keys,
+        keys=keys,
         program_id=params.program_id,
         data=INSTRUCTIONS_LAYOUT.build(
             dict(
